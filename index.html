@@ -1,14 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://kit.fontawesome.com/101cdeab15.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    
 
+<body>
+    <header class='flex border-b bg-white font-sans min-h-[70px] tracking-wide relative z-50'>
+        <div class='flex flex-wrap items-center justify-between px-10 py-3 gap-4 w-full'>
+
+            <div class="logo">
+                <a href="#">
+                    <h2 class="capitalize text-blue-600 text-3xl"> e- <span class="text-gray-600">shop</span> </h2>
+                </a>
+            </div>
+
+
+            <div id="collapseMenu"
+                class='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
+                <button id="toggleClose" class='lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3'>
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+                <nav>
+                    <ul
+                        class='lg:flex lg:gap-x-10 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
+                        <li class='mb-6 hidden max-lg:block'>
+                            <a href="#">
+                                <h2 class="capitalize text-blue-600 text-3xl"> e- <span
+                                        class="text-gray-600">shop</span>
+                                </h2>
+                            </a>
+                        </li>
+                        <li class='max-lg:border-b max-lg:py-3'><a href='#'
+                                class='hover:text-blue-600 text-[15px] font-bold text-blue-600 block transition-all duration-500'>Home</a>
+                        </li>
+                        <li class='group max-lg:border-b max-lg:py-3 relative'>
+                            <a href='#'
+                                class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold lg:hover:fill-[#007bff] block transition-all duration-500 capitalize'>shop
+
+                            </a>
+
+                        </li>
+                        <li class='group max-lg:border-b max-lg:py-3 relative'>
+                            <a href='#'
+                                class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold lg:hover:fill-[#007bff] block'>Blog
+
+                            </a>
+
+                        </li>
+                        <li class='max-lg:border-b max-lg:py-3'><a href='#'
+                                class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold block transition-all duration-500'>About</a>
+                        </li>
+                        <li class='max-lg:border-b max-lg:py-3'><a href='#'
+                                class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold block transition-all duration-500'>Contact</a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <div class='icons  flex items-center space-x-8 max-lg:ml-auto'>
+                <span class="relative">
+                    <i class="fa-regular fa-heart text-xl text-[#333]"></i>
+                    <span
+                        class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">0</span>
+                </span>
+
+                <span class="relative">
+                    <i class="fa-solid fa-cart-arrow-down text-xl text-[#333]"></i>
+                    <span
+                        class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">0</span>
+                </span>
+                <i class="fa-solid fa-magnifying-glass text-xl text-[#333]"></i>
+                <button id="toggleOpen" class='lg:hidden'>
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>

@@ -13,3 +13,17 @@ function handleClick() {
 
 toggleOpen.addEventListener('click', handleClick);
 toggleClose.addEventListener('click', handleClick);
+
+
+
+
+var swiper = new Swiper(".heroSwiper", {
+    slidesPerView: 1,
+    loop: true,
+    centeredSlides: true,
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+    },
+   
+});

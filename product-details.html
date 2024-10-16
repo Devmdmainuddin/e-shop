@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://kit.fontawesome.com/101cdeab15.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class='flex border-b bg-white font-sans min-h-[70px] tracking-wide relative z-50 '>
+        <div class="container mx-auto">
+            <div class='flex flex-wrap items-center justify-between px-10 py-3 gap-4 w-full'>
+
+                <div class="logo">
+                    <a href="index.html">
+                        <h2 class="capitalize text-blue-600 text-3xl"> e- <span class="text-gray-600">shop</span> </h2>
+                    </a>
+                </div>
+
+
+                <div id="collapseMenu"
+                    class='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
+                    <button id="toggleClose" class='lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3'>
+                        <i class="fa-solid fa-xmark text-2xl"></i>
+                    </button>
+                    <nav>
+                        <ul
+                            class='lg:flex lg:gap-x-10 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
+                            <li class='mb-6 hidden max-lg:block'>
+                                <a href="index.html">
+                                    <h2 class="capitalize text-blue-600 text-3xl"> e- <span
+                                            class="text-gray-600">shop</span>
+                                    </h2>
+                                </a>
+                            </li>
+                            <li class='max-lg:border-b max-lg:py-3'><a href='index.html'
+                                    class='hover:text-blue-600 text-[15px] font-bold text-blue-600 block transition-all duration-500'>Home</a>
+                            </li>
+                            <li class='group max-lg:border-b max-lg:py-3 relative'>
+                                <a href='#'
+                                    class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold lg:hover:fill-[#007bff] block transition-all duration-500 capitalize'>shop
+
+                                </a>
+
+                            </li>
+                            <li class='group max-lg:border-b max-lg:py-3 relative'>
+                                <a href='#'
+                                    class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold lg:hover:fill-[#007bff] block'>Blog
+
+                                </a>
+
+                            </li>
+                            <li class='max-lg:border-b max-lg:py-3'><a href='#'
+                                    class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold block transition-all duration-500'>About</a>
+                            </li>
+                            <li class='max-lg:border-b max-lg:py-3'><a href='#'
+                                    class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold block transition-all duration-500'>Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+
+                <div class='icons  flex items-center space-x-8 max-lg:ml-auto'>
+                    <span class="relative">
+                        <i class="fa-regular fa-heart text-xl text-[#333]"></i>
+                        <span
+                            class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">0</span>
+                    </span>
+
+                    <span class="relative">
+                        <i class="fa-solid fa-cart-arrow-down text-xl text-[#333]"></i>
+                        <span
+                            class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">0</span>
+                    </span>
+                    <i class="fa-solid fa-magnifying-glass text-xl text-[#333]"></i>
+                    <button id="toggleOpen" class='lg:hidden'>
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+    <div class="container mx-auto  py-9 px-4">
+        <div id="product-details" class="flex justify-center items-center lg:flex-row flex-col gap-8">
+        </div>
+    </div>
+
+
+    <script>
+        // Get the product ID from the URL query parameters
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+
+        // Fetch and display the product details
+        const getProductDetails = () => {
+            fetch(`https://dummyjson.com/products/${productId}`)
+                .then(res => res.json())
+                .then(product => {
+                    const productDetailsContainer = document.getElementById('product-details');
+                    productDetailsContainer.innerHTML = `
+                        
+
+            <div class="w-full sm:w-96 md:w-8/12 lg:w-6/12 items-center">
+                <p class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-600  dark:text-white">Home / Furniture / Wooden Stool</p>
+                <h2 class="font-semibold lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800 dark:text-white mt-4">${product.title}</h2>
+  
+                <div class="flex flex-row justify-between mt-5">
+                    <div class="flex justify-center space-x-1 mt-4 text-[#facc15]">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star text-[#CED5D8]"></i>
+                    </div>
+                    <p class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-700 hover:underline hover:text-gray-800 dark:text-white duration-100 cursor-pointer">22 reviews</p>
+                </div>
+  
+                <p class="font-normal text-base leading-6 text-gray-600  mt-7">${product.description}</p>
+                <p class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 mt-6 dark:text-white">$${product.price}</p>
+  
+                <div class="lg:mt-11 mt-10">
+                    <div class="flex flex-row justify-between">
+                        <p class="font-medium text-base leading-4 text-gray-600 ">Select quantity</p>
+                        <div class="flex">
+                            <span onclick="minus()" class="focus:outline-none dark:text-white focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 cursor-pointer border border-gray-300 border-r-0 w-7 h-7 flex items-center justify-center pb-1">-</span>
+                            <input id="counter" aria-label="input" class="border dark:text-white border-gray-300 dark:bg-transparent h-full text-center w-14 pb-1" type="text" value="1" />
+                            <span onclick="plus()" class="focus:outline-none dark:text-white focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 cursor-pointer border border-gray-300 border-l-0 w-7 h-7 flex items-center justify-center pb-1">+</span>
+                        </div>
+                    </div>
+                    <hr class="bg-gray-200 w-full my-2" />
+                    <div class="flex flex-row justify-between items-center mt-4">
+                        <p class="font-medium text-base leading-4 text-gray-600 ">Dimensions :</p>
+                      <div class='flex  gap-1'> 
+                        <span>width :  ${product?.dimensions?.width}</span>
+                        <span> , height :  ${product?.dimensions?.height}</span>
+                        <span> , depth :  ${product?.dimensions?.depth}</span>
+                        </div>
+                    </div>
+                    <hr class="bg-gray-200 w-full mt-4" />
+                </div>
+  
+                <button class="focus:outline-none focus:ring-2 hover:bg-black focus:ring-offset-2 focus:ring-gray-800 font-medium text-base leading-4 text-white bg-gray-800 w-full py-5 lg:mt-12 mt-6 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100">Add to shopping bag</button>
+            </div>
+  
+           
+  
+            <div class="w-full sm:w-96 md:w-8/12 lg:w-6/12">
+                <div class="w-full  bg-gray-100">
+                    <img src="${product?.images[0]}" alt="${product.title}" />
+                </div>
+            </div>
+
+                    `;
+                });
+        }
+
+        getProductDetails();
+    </script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

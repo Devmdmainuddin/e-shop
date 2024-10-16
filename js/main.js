@@ -1,4 +1,4 @@
-// menu
+
 var toggleOpen = document.getElementById('toggleOpen');
 var toggleClose = document.getElementById('toggleClose');
 var collapseMenu = document.getElementById('collapseMenu');
@@ -211,7 +211,7 @@ const displayProducts = (products) => {
 const displayCategory = (products) => {
 
    const category= [...new Set(products?.map(product=>product.category))]
-console.log(category);
+// console.log(category);
     
    
 }

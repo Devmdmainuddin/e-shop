@@ -66,7 +66,7 @@ const getData = () => {
     fetch("https://dummyjson.com/products")
         .then(res => res.json())
         .then(data => {
-            console.log(data.products);
+           
             displayProducts(data.products);
             displayCategory(data.products)
             // Add search event listener to the button
@@ -74,6 +74,10 @@ const getData = () => {
                 handleSearch(data.products);
                 displaySearchProducts()
             });
+            // document.getElementById("search-input").addEventListener("change", () => {
+            //     handleSearchEvent(data.products); // Call handleSearchEvent on change
+            // });
+
         })
 }
 getData()
@@ -89,49 +93,88 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// Handle search when the input value changes
+// const handleSearchEvent = (products) => {
+//     const value = document.getElementById("search-input").value.trim();
+    
+//     if (value) {
+//         // Filter products based on the search term
+//         const filteredProducts = products.filter(product =>
+//             product.title.toLowerCase().includes(value.toLowerCase())
+//         );
+
+//         console.log('Filtered Products:', filteredProducts);
+
+//         // Clear input field after search (optional)
+//         document.getElementById("search-input").value = '';
+
+//         // Display filtered products
+//         displaySearchProducts(filteredProducts);
+//     } else {
+//         alert("Please enter a valid search term.");
+//     }
+// };
+
+
+
+
+
 
 const handleSearch = (products) => {
     const value = document.getElementById("search-input").value.trim();
     
     if (value) {
+        // Filter products based on the search term
         const filteredProducts = products.filter(product =>
             product.title.toLowerCase().includes(value.toLowerCase())
         );
-        document.getElementById("search-input").value=''
-        console.log(filteredProducts);
-        displaySearchProducts(filteredProducts); 
+
+        // Debug: Check if filtered products exist
+        console.log('Filtered Products:', filteredProducts);
+
+        // Clear input field
+        document.getElementById("search-input").value = '';
+
+        // Display the filtered products
+        displaySearchProducts(filteredProducts);
     } else {
         alert("Please enter a valid search term.");
     }
 };
 
-const displaySearchProducts=(products)=>{
+const displaySearchProducts = (products) => {
     const productsContainer = document.getElementById('searchproducts');
+    console.log('Displaying Products: 17', products.length);
+    // Clear previous search results
+    productsContainer.innerHTML = '';  // This line is important to reset the container
 
+    // Check if any products are available
+    if (products.length === 0) {
+        productsContainer.innerHTML = '<p>No products found.</p>';
+        return;
+    }
+
+    // Debug: Check if we are correctly adding products
+    // console.log('Displaying Products:', products);
+
+    // Add new search results
     products.forEach(product => {
+        const productImage = product.images && product.images[0] ? product.images[0] : 'placeholder.jpg'; // Fallback image
+        const productTitle = product.title ? product.title : 'No title available';
+
         productsContainer.innerHTML += `
             <div
-                class=" w-[365px] border-b flex gap-3 p-3 rounded-lg group overflow-hidden cursor-pointer relative z-50 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all"
+                class="w-[365px] border-b flex gap-3 p-3 rounded-lg group overflow-hidden cursor-pointer relative z-50 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all"
                 onclick="window.location.href='product-details.html?id=${product.id}'"> 
                 <div class="w-12 h-12 overflow-hidden mx-auto aspect-w-16 aspect-h-8">
-                    <img src=${product?.images[0]} alt="product1" class="h-full w-full object-contain" />
+                    <img src="${productImage}" alt="product" class="h-full w-full object-contain" />
                 </div>
                 
-                <h3 class="text-base font-bold text-gray-800">${product?.title}</h3>
-
-
-
-
-                </div>
+                <h3 class="text-base font-bold text-gray-800">${productTitle}</h3>
             </div>
         `;
-
     });
-
-}
-
-
-
+};
 
 const displayProducts = (products) => {
     const productsContainer = document.getElementById('products');

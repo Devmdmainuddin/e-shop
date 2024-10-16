@@ -14,8 +14,8 @@
 
 <body>
 
-    <header class='flex border-b bg-white font-sans min-h-[70px] tracking-wide relative z-50 '>
-        <div class="container mx-auto">
+    <header class='flex border-b bg-white font-sans min-h-[70px] tracking-wide relative z-50'>
+        <div class="container mx-auto relative">
             <div class='flex flex-wrap items-center justify-between px-10 py-3 gap-4 w-full'>
 
                 <div class="logo">
@@ -80,18 +80,34 @@
                         <span
                             class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">0</span>
                     </span>
-                    <i class="fa-solid fa-magnifying-glass text-xl text-[#333]"></i>
+                    <span id="show-search">
+                        <i class="fa-solid fa-magnifying-glass text-xl text-[#333]"></i>
+                    </span>
                     <button id="toggleOpen" class='lg:hidden'>
                         <i class="fa-solid fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
+            <div id="search-div" class='hidden flex items-center border w-1/2 absolute top-full left-1/2 -translate-x-1/2'>
+                <input type="text" id="search-input" placeholder="search anything"
+                    class="py-3 px-2 w-full outline-0 rounded-md">
+                <button id="search-btn"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4">Search</button>
+            </div>
+         
+            <div id="searchproducts" class="bg-slate-100 flex flex-col justify-center items-center absolute top-[120px] left-1/2 -translate-x-1/2"></div>
+      
+            
+
         </div>
 
     </header>
 
 
     <div class="container mx-auto  py-9 px-4">
+        <p id="breadcrumb"
+            class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-600 dark:text-white">
+            Home</p>
         <div id="product-details" class="flex justify-center items-center lg:flex-row flex-col gap-8">
         </div>
     </div>
@@ -101,6 +117,23 @@
         // Get the product ID from the URL query parameters
         const params = new URLSearchParams(window.location.search);
         const productId = params.get('id');
+        const breadcrumb = document.getElementById('breadcrumb');
+        const currentPath = window.location.pathname.split("/")[4].split(".")[0]; // Get the second part of the URL
+        breadcrumb.innerHTML += ` / ${currentPath}`;
+       
+        function plus() {
+            var preValue = document.getElementById("counter").value;
+            document.getElementById("counter").value = parseInt(preValue) + 1;
+
+        }
+
+        function minus() {
+            var preValue = document.getElementById("counter").value;
+            if (parseInt(preValue) != 1) {
+                document.getElementById("counter").value = parseInt(preValue) - 1;
+            }
+        }
+
 
         // Fetch and display the product details
         const getProductDetails = () => {
@@ -112,7 +145,7 @@
                         
 
             <div class="w-full sm:w-96 md:w-8/12 lg:w-6/12 items-center">
-                <p class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-600  dark:text-white">Home / Furniture / Wooden Stool</p>
+               
                 <h2 class="font-semibold lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800 dark:text-white mt-4">${product.title}</h2>
   
                 <div class="flex flex-row justify-between mt-5">
@@ -166,6 +199,7 @@
         }
 
         getProductDetails();
+        
     </script>
     <script src="js/main.js"></script>
 </body>

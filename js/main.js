@@ -66,18 +66,15 @@ const getData = () => {
     fetch("https://dummyjson.com/products")
         .then(res => res.json())
         .then(data => {
-           
-            displayProducts(data.products);
-            displayCategory(data.products)
-            // Add search event listener to the button
+            const products = data.products;
+            displayProducts(products);
+            displayCategory(products)
+            displayShopProducts(data.products);
             document.getElementById("search-btn").addEventListener("click", () => {
-                handleSearch(data.products);
+                handleSearch(products);
                 displaySearchProducts()
             });
-            // document.getElementById("search-input").addEventListener("change", () => {
-            //     handleSearchEvent(data.products); // Call handleSearchEvent on change
-            // });
-
+           
         })
 }
 getData()
@@ -86,7 +83,7 @@ getData()
 document.addEventListener("DOMContentLoaded", function () {
     const togglebtn = document.getElementById("show-search");
 
-    togglebtn.addEventListener("click", function() {
+    togglebtn.addEventListener("click", function () {
         const sdiv = document.getElementById("search-div");
         sdiv.classList.toggle("hidden");
     });
@@ -96,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Handle search when the input value changes
 // const handleSearchEvent = (products) => {
 //     const value = document.getElementById("search-input").value.trim();
-    
+
 //     if (value) {
 //         // Filter products based on the search term
 //         const filteredProducts = products.filter(product =>
@@ -122,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 const handleSearch = (products) => {
     const value = document.getElementById("search-input").value.trim();
-    
+
     if (value) {
         // Filter products based on the search term
         const filteredProducts = products.filter(product =>
@@ -145,8 +142,8 @@ const handleSearch = (products) => {
 const displaySearchProducts = (products) => {
     const productsContainer = document.getElementById('searchproducts');
     console.log('Displaying Products: 17', products.length);
-    // Clear previous search results
-    productsContainer.innerHTML = '';  // This line is important to reset the container
+   
+    productsContainer.innerHTML = '';  
 
     // Check if any products are available
     if (products.length === 0) {
@@ -154,10 +151,7 @@ const displaySearchProducts = (products) => {
         return;
     }
 
-    // Debug: Check if we are correctly adding products
-    // console.log('Displaying Products:', products);
-
-    // Add new search results
+ 
     products.forEach(product => {
         const productImage = product.images && product.images[0] ? product.images[0] : 'placeholder.jpg'; // Fallback image
         const productTitle = product.title ? product.title : 'No title available';
@@ -208,11 +202,8 @@ const displayProducts = (products) => {
     });
 }
 
-const displayCategory = (products) => {
+// const displayCategory = (products) => {
+//     const category = [...new Set(products?.map(product => product.category))]
+// }
+// displayCategory()
 
-   const category= [...new Set(products?.map(product=>product.category))]
-// console.log(category);
-    
-   
-}
-displayCategory()

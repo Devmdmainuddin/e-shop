@@ -40,3 +40,9 @@
 
 */
 
+nav ul li a:active {
+  color: #2563eb;
+}
+nav ul li a.active {
+  color: #2563eb;
+}

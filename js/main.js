@@ -110,7 +110,7 @@ console.log(items);
         
         <div
     class="bg-gray-100 p-3 rounded-lg group overflow-hidden cursor-pointer relative  hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all"
-    onclick="window.location.href='product-details.html?id=${product.id}'">  <!-- Link to product details page -->
+    > 
     <div class="w-full h-[300px] overflow-hidden mx-auto aspect-w-16 aspect-h-8">
         <img src=${product?.images[0]} alt="product1" class="h-full w-full object-contain" />
     </div>
@@ -118,8 +118,8 @@ console.log(items);
     <div
         class="absolute mx-auto left-0 right-0 -bottom-80 group-hover:bottom-2 bg-white w-11/12 p-3 rounded-lg transition-all duration-500">
         <div class="text-center">
-            <h3 class="text-base font-bold text-gray-800">${product.title}</h3>
-            <h4 class="text-lg text-blue-600 font-bold mt-2">$${product.price}</h4>
+            <h3 onclick="window.location.href='product-details.html?id=${product.id}'" class="text-base font-bold text-gray-800">${product.title}</h3>
+            <h4 class="text-lg text-blue-600 font-bold mt-2">$${product.price} </h4>
         </div>
         
         <div class="flex justify-center space-x-1 mt-4 text-[#facc15]">
@@ -129,6 +129,9 @@ console.log(items);
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star text-[#CED5D8]"></i>
         </div>
+         <div class='flex justify-center items-center'> 
+                     <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
     </div>
 </div>
 
@@ -259,7 +262,7 @@ const displaySearchProducts = (products) => {
 const displayProducts = (products) => {
     const productsContainer = document.getElementById('products');
 
-    products.forEach(product => {
+    products.slice(0,8).forEach(product => {
         productsContainer.innerHTML += `
             <div
                 class="bg-gray-100 p-3 rounded-lg group overflow-hidden cursor-pointer relative  hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all"
@@ -282,7 +285,10 @@ const displayProducts = (products) => {
                         <i class="fa-solid fa-star"></i>
                         <i class="fa-solid fa-star text-[#CED5D8]"></i>
                     </div>
-                    <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg" onclick="addToCart(${product.id})">Add to Cart</button>
+                    <div class='flex justify-center items-center'> 
+                     <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                   
                 </div>
             </div>
         `;
@@ -343,8 +349,14 @@ const displayCart = () => {
             <div  class=" flex w-full justify-between items-center flex-wrap gap-2 bg-[#F5F5F3] py-2 px-5 border-b">
                 <img src='${item.images}' alt="" class="bg-[#979797] w-9 h-9" />
                  <h2>${item.title}</h2>
-                 <p>$${item.price}</p>
-                <button onClick='removeFromCart(${item.id})'>delete</button>
+                 <p>$${item.price } </p>
+                 <div class='flex gap-1'>
+                  <button onclick="handleMinusQuantity(${item.id})">-</button>
+                  <p><span class="quantity">${item.quantity}</span></p>
+                  <button onclick="handlePlusQuantity(${item.id})">+</button>
+
+                 </div>
+                <button onClick='removeFromCart(${item.id})'><i class="fa-solid fa-xmark text-2xl"></i></button>
             </div>
            
         `;
@@ -352,6 +364,35 @@ const displayCart = () => {
 }
 
 // cart length showing
+// Function to handle decreasing the quantity
+function handleMinusQuantity(itemId) {
+    const cartItems = getStoredCart();
+    const item = cartItems.find(item => item.id === itemId);
+    if (item) {
+        item.quantity = Math.max(0, item.quantity - 1); // Prevent negative quantity
+        localStorage.setItem('shopping-cart', JSON.stringify(cartItems))
+        if (item.quantity === 0) {
+            // Remove item from cart if quantity is zero
+          const  newCart = cartItems.filter(item => item.id !== itemId);
+          localStorage.setItem('shopping-cart', JSON.stringify(newCart));
+        }
+       
+        displayCartLength()
+        displayCart()
+    }
+}
+
+// Function to handle increasing the quantity
+function handlePlusQuantity(itemId) {
+    const cartItems = getStoredCart();
+    const item = cartItems.find(item => item.id === itemId);
+    if (item) {
+        item.quantity += 1;
+        localStorage.setItem('shopping-cart', JSON.stringify(cartItems));
+        displayCartLength()
+        displayCart()
+    }
+}
 
 
 const displayCartLength = () => {
@@ -360,3 +401,13 @@ const displayCartLength = () => {
 }
 displayCartLength()
 displayCart()
+
+const links = document.querySelectorAll('nav ul li a');
+links.forEach(link => {
+  link.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevents the link from navigating
+    links.forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+

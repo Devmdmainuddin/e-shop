@@ -2671,7 +2671,7 @@
 
     <header class='flex fixed top-0 w-full border-b bg-white font-sans min-h-[70px] tracking-wide  z-50'>
         <div class="container mx-auto relative">
-            <div class='flex flex-wrap items-center justify-between px-10 py-3 gap-4 w-full'>
+            <div class='flex flex-wrap items-center justify-between px-10 py-3 gap-4 w-full '>
 
                 <div class="logo">
                     <a href="index.html">
@@ -2723,17 +2723,17 @@
 
                 </div>
 
-                <div class='icons  flex items-center space-x-8 max-lg:ml-auto'>
+                <div class='icons  flex items-center space-x-8 max-lg:ml-auto '>
                     <span class="relative">
                         <i class="fa-regular fa-heart text-xl text-[#333]"></i>
                         <span
                             class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">0</span>
                     </span>
 
-                    <span class="relative">
+                    <span id="cartbtn"  class="relative">
                         <i class="fa-solid fa-cart-arrow-down text-xl text-[#333]"></i>
-                        <span
-                            class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white"> <span id="cartLength"></span></span>
+                        <span class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">
+                            <span id="cartLength"></span></span>
                     </span>
                     <span id="show-search">
                         <i class="fa-solid fa-magnifying-glass text-xl text-[#333]"></i>
@@ -2741,27 +2741,36 @@
                     <button id="toggleOpen" class='lg:hidden'>
                         <i class="fa-solid fa-bars text-2xl"></i>
                     </button>
+                    
+                </div>
+                
+            </div>
+            <div id="search-div"
+                class='hidden flex items-center border w-1/2 z-20 absolute top-full left-1/2 -translate-x-1/2'>
+                <input type="text" id="search-input" placeholder="search anything"
+                    class="py-3 px-2 w-full outline-0 rounded-md">
+                    <div id="searchproducts"
+                    class="bg-slate-100 flex flex-col justify-center items-center absolute top-[70px] left-1/2 -translate-x-1/2">
                 </div>
             </div>
-            <div id="search-div" class='hidden flex items-center border w-1/2 absolute top-full left-1/2 -translate-x-1/2'>
-                <input  type="text" id="search-input" placeholder="search anything"
-                    class="py-3 px-2 w-full outline-0 rounded-md">
-                <button id="search-btn"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4">Search</button>
+            <div id="showcart" class="hidden flex items-center border w-1/2 absolute top-full right-6 ">
+                <div id="cart" class="w-full">
+
+                </div>
             </div>
-         
-            <div id="searchproducts" class="bg-slate-100 flex flex-col justify-center items-center absolute top-[120px] left-1/2 -translate-x-1/2"></div>
-      
+
             
+
+
 
         </div>
 
     </header>
 
 
-   
 
-<section class="hero">
+
+    <section class="hero">
 
         <!-- Swiper -->
         <div class="swiper heroSwiper">
@@ -2934,15 +2943,16 @@
     <section class="productsSection mt-16">
         <div class="container mx-auto py-4">
             <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-12">Latest Products</h2>
-            <div id="products" class="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-6 gap-12">
+            <div id="products"
+                class="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-6 gap-12">
 
             </div>
-           
+
         </div>
     </section>
 
 
-       
+
     <!--  product card -->
 
     <!-- blogs section -->
@@ -3609,9 +3619,9 @@
         </div>
     </section>
     <!-- Testimonial -->
-     <div id="cart">
+    <div id="cart">
 
-     </div>
+    </div>
 
     <footer class="w-full">
         <div class="container mx-auto px-6">
@@ -3885,7 +3895,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <script  src="js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

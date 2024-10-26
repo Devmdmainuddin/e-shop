@@ -14,7 +14,7 @@
 
 <body>
 
-    <header class=' border-b bg-white font-sans min-h-[70px]  relative z-50'>
+    <!-- <header class=' border-b bg-white font-sans min-h-[70px]  relative z-50'>
         <div class=" max-w-[1280px] mx-auto relative">
             <div class='flex flex-wrap items-center justify-between px-10 py-3 gap-4 w-full'>
 
@@ -104,7 +104,107 @@
 
         </div>
 
+    </header> -->
+   
+    <header class='flex  top-0 w-full border-b bg-white font-sans min-h-[70px] tracking-wide  z-50'>
+        <div class="container mx-auto relative">
+            <div class='flex flex-wrap items-center justify-between px-10 py-3 gap-4 w-full '>
+
+                <div class="logo">
+                    <a href="index.html">
+                        <h2 class="capitalize text-blue-600 text-3xl"> e- <span class="text-gray-600">shop</span> </h2>
+                    </a>
+                </div>
+
+
+                <div id="collapseMenu"
+                    class='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
+                    <button id="toggleClose" class='lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3'>
+                        <i class="fa-solid fa-xmark text-2xl"></i>
+                    </button>
+                    <nav>
+                        <ul
+                            class='lg:flex lg:gap-x-10 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
+                            <li class='mb-6 hidden max-lg:block'>
+                                <a href="index.html">
+                                    <h2 class="capitalize text-blue-600 text-3xl"> e- <span
+                                            class="text-gray-600">shop</span>
+                                    </h2>
+                                </a>
+                            </li>
+                            <li class='max-lg:border-b max-lg:py-3'><a href='index.html'
+                                    class='hover:text-blue-600 text-[15px] font-bold text-blue-600 block transition-all duration-500'>Home</a>
+                            </li>
+                            <li class='group max-lg:border-b max-lg:py-3 relative'>
+                                <a href='shop.html'
+                                    class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold lg:hover:fill-[#007bff] block transition-all duration-500 capitalize'>shop
+
+                                </a>
+
+                            </li>
+                            <li class='group max-lg:border-b max-lg:py-3 relative'>
+                                <a href='#'
+                                    class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold lg:hover:fill-[#007bff] block'>Blog
+
+                                </a>
+
+                            </li>
+                            <li class='max-lg:border-b max-lg:py-3'><a href='#'
+                                    class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold block transition-all duration-500'>About</a>
+                            </li>
+                            <li class='max-lg:border-b max-lg:py-3'><a href='#'
+                                    class='hover:text-[#007bff] text-gray-600 text-[15px] font-bold block transition-all duration-500'>Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+
+                <div class='icons  flex items-center space-x-8 max-lg:ml-auto '>
+                    <span class="relative">
+                        <i class="fa-regular fa-heart text-xl text-[#333]"></i>
+                        <span
+                            class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">0</span>
+                    </span>
+
+                    <span id="cartbtn"  class="relative">
+                        <i class="fa-solid fa-cart-arrow-down text-xl text-[#333]"></i>
+                        <span class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">
+                            <span id="cartLength"></span></span>
+                    </span>
+                    <span id="show-search">
+                        <i class="fa-solid fa-magnifying-glass text-xl text-[#333]"></i>
+                    </span>
+                    <button id="toggleOpen" class='lg:hidden'>
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                    
+                </div>
+                
+            </div>
+            <div id="search-div"
+                class='hidden flex items-center border w-1/2 z-20 absolute top-full left-1/2 -translate-x-1/2'>
+                <input type="text" id="search-input" placeholder="search anything"
+                    class="py-3 px-2 w-full outline-0 rounded-md">
+                   
+                    <div id="searchproducts"
+                    class="bg-slate-100 flex flex-col z-20 justify-center items-center absolute top-[70px] left-1/2 -translate-x-1/2">
+                </div>
+            </div>
+            <div id="showcart" class="hidden flex items-center border w-1/2 absolute top-full right-6 z-20">
+                <div id="cart" class="w-full">
+
+                </div>
+            </div>
+
+            
+
+
+
+        </div>
+
     </header>
+   
     <div class="flex gap-4 max-w-[1280px] mx-auto">
 
         <aside>
@@ -452,132 +552,174 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <script src="js/main.js"></script>
+   
     <script>
 
 
-        let products = [];
+        // let products = [];
         const getshopData = () => {
             fetch("https://dummyjson.com/products")
                 .then(res => res.json())
                 .then(data => {
                     products = data.products
+                    displayShopProducts(products);
                  const  category = [...new Set(products.map(product => product.category))];
                   const  brand = [...new Set(products.map(product => product.brand))];
-                    displayShopProducts(products);
+                  
+                  const searchInput = document.getElementById("search-input");
+            searchInput.addEventListener("input", () => handleSearch(products));
+
+                 
                     document.getElementById("showCategory").addEventListener("onclick", () => filterProducts(products));
                     document.getElementById("categoryFilter").addEventListener("change", () => filterProducts(products));
                     document.getElementById("priceFilter").addEventListener("input", () => filterProducts(products));
                     displayshopCategory(category);
                     showCategory(category)
                     showBrands(brand)
+                    handleshopSearch(products)
                 })
         }
         getshopData()
 
+const handleshopSearch = (products) => {
+    const value = document.getElementById("search-input").value.trim();
+    if (value) {
+      
+        const filteredProducts = products.filter(product =>
+            product.title.toLowerCase().includes(value.toLowerCase())
+        );
+        displayshopSearchProducts(filteredProducts);
+    } else {
+        document.getElementById("search-input").value = '';
+        displayshopSearchProducts('');
+    }
+};
 
-        function displayShopProducts(items) {
+const displayshopSearchProducts = (products) => {
+    const productsContainer = document.getElementById('searchproducts');
+    console.log('Displaying Products: ', products.length);
+    productsContainer.innerHTML = '';
 
-            const productList = document.getElementById("productList");
-            productList.innerHTML = "";
-            items?.forEach(product => {
-                productList.innerHTML += `
-                
-                <div
-            class="bg-gray-100 p-3 rounded-lg group overflow-hidden cursor-pointer relative  hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all"
-            onclick="window.location.href='product-details.html?id=${product.id}'">  <!-- Link to product details page -->
-            <div class="w-full h-[300px] overflow-hidden mx-auto aspect-w-16 aspect-h-8">
-                <img src=${product?.images[0]} alt="product1" class="h-full w-full object-contain" />
-            </div>
+    products.forEach(product => {
+        const productImage = product.images && product.images[0] ? product.images[0] : 'placeholder.jpg'; // Fallback image
+        const productTitle = product.title ? product.title : 'No title available';
 
+        productsContainer.innerHTML += `
             <div
-                class="absolute mx-auto left-0 right-0 -bottom-80 group-hover:bottom-2 bg-white w-11/12 p-3 rounded-lg transition-all duration-500">
-                <div class="text-center">
-                    <h3 class="text-base font-bold text-gray-800">${product.title}</h3>
-                    <h4 class="text-lg text-blue-600 font-bold mt-2">$${product.price}</h4>
+                class="w-[365px] border-b flex gap-3 p-3 rounded-lg group overflow-hidden cursor-pointer relative z-50 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all"
+                onclick="window.location.href='product-details.html?id=${product.id}'"> 
+                <div class="w-12 h-12 overflow-hidden mx-auto aspect-w-16 aspect-h-8">
+                    <img src="${productImage}" alt="product" class="h-full w-full object-contain" />
                 </div>
                 
-                <div class="flex justify-center space-x-1 mt-4 text-[#facc15]">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star text-[#CED5D8]"></i>
-                </div>
+                <h3 class="text-base font-bold text-gray-800">${productTitle}</h3>
             </div>
-        </div>
+        `;
+    });
+};
+        // function displayShopProducts(items) {
 
-            `;
-            });
-        }
+        //     const productList = document.getElementById("productList");
+        //     productList.innerHTML = "";
+        //     items?.forEach(product => {
+        //         productList.innerHTML += `
+                
+        //         <div
+        //     class="bg-gray-100 p-3 rounded-lg group overflow-hidden cursor-pointer relative  hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all"
+        //     onclick="window.location.href='product-details.html?id=${product.id}'">  <!-- Link to product details page -->
+        //     <div class="w-full h-[300px] overflow-hidden mx-auto aspect-w-16 aspect-h-8">
+        //         <img src=${product?.images[0]} alt="product1" class="h-full w-full object-contain" />
+        //     </div>
+
+        //     <div
+        //         class="absolute mx-auto left-0 right-0 -bottom-80 group-hover:bottom-2 bg-white w-11/12 p-3 rounded-lg transition-all duration-500">
+        //         <div class="text-center">
+        //             <h3 class="text-base font-bold text-gray-800">${product.title}</h3>
+        //             <h4 class="text-lg text-blue-600 font-bold mt-2">$${product.price}</h4>
+        //         </div>
+                
+        //         <div class="flex justify-center space-x-1 mt-4 text-[#facc15]">
+        //             <i class="fa-solid fa-star"></i>
+        //             <i class="fa-solid fa-star"></i>
+        //             <i class="fa-solid fa-star"></i>
+        //             <i class="fa-solid fa-star"></i>
+        //             <i class="fa-solid fa-star text-[#CED5D8]"></i>
+        //         </div>
+        //     </div>
+        // </div>
+
+        //     `;
+        //     });
+        // }
 
 
 
 
 
-        const filterProducts = (products) => {
-            const category = document.getElementById("categoryFilter").value;
-            const maxPrice = document.getElementById("priceFilter").value || Infinity;
+        // const filterProducts = (products) => {
+        //     const category = document.getElementById("categoryFilter").value;
+        //     const maxPrice = document.getElementById("priceFilter").value || Infinity;
 
-            const filteredProducts = products.filter(product => {
-                return (category ? product.category === category : true) && product.price <= maxPrice;
-            });
-            displayShopProducts(filteredProducts);
-        }
+        //     const filteredProducts = products.filter(product => {
+        //         return (category ? product.category === category : true) && product.price <= maxPrice;
+        //     });
+        //     displayShopProducts(filteredProducts);
+        // }
 
-        const showCategory = (categories) => {
-            const categoryFilter = document.getElementById("showCategory");
-            categories.forEach(category => {
-                categoryFilter.innerHTML += `<li onclick="filterCategory('${category}')"><a href="#" class="block py-2  hover:text-blue-600">${category}</a></li>`;
-            });
-        };
-        const showBrands = (brands) => {
-            const brandFilter = document.getElementById("showBrands");
-            brands.forEach(brand => {
-                brandFilter.innerHTML += `<li onclick="filterBrand('${brand}')"><a href="#" class="block py-2  hover:text-blue-600">${brand}</a></li>`;
-            });
-        };
+        // const showCategory = (categories) => {
+        //     const categoryFilter = document.getElementById("showCategory");
+        //     categories.forEach(category => {
+        //         categoryFilter.innerHTML += `<li onclick="filterCategory('${category}')"><a href="#" class="block py-2  hover:text-blue-600">${category}</a></li>`;
+        //     });
+        // };
+        // const showBrands = (brands) => {
+        //     const brandFilter = document.getElementById("showBrands");
+        //     brands.forEach(brand => {
+        //         brandFilter.innerHTML += `<li onclick="filterBrand('${brand}')"><a href="#" class="block py-2  hover:text-blue-600">${brand}</a></li>`;
+        //     });
+        // };
 
-        const filterCategory = (category) => {
-            const newData = products.filter(product => product.category === category)
-            displayShopProducts(newData);
-        }
-        const filterBrand = (brand) => {
-            const newData = products.filter(product => product.brand === brand)
-            displayShopProducts(newData);
-        }
+        // const filterCategory = (category) => {
+        //     const newData = products.filter(product => product.category === category)
+        //     displayShopProducts(newData);
+        // }
+        // const filterBrand = (brand) => {
+        //     const newData = products.filter(product => product.brand === brand)
+        //     displayShopProducts(newData);
+        // }
 
 
         // show  category
-        const displayshopCategory = (categories) => {
+        // const displayshopCategory = (categories) => {
 
-            const categoryFilter = document.getElementById("categoryFilter");
-            categoryFilter.innerHTML = `<option value="">All Categories</option>`;
-            categories.forEach(category => {
-                categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
-            });
-        };
+        //     const categoryFilter = document.getElementById("categoryFilter");
+        //     categoryFilter.innerHTML = `<option value="">All Categories</option>`;
+        //     categories.forEach(category => {
+        //         categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
+        //     });
+        // };
         // filter products by price range
-        const handlePriceFilter = (range) => {
-            filteredItems = products.filter(item => item.price >= range.low && item.price <= range.high);
-            displayShopProducts(filteredItems);
-        };
+        // const handlePriceFilter = (range) => {
+        //     filteredItems = products.filter(item => item.price >= range.low && item.price <= range.high);
+        //     displayShopProducts(filteredItems);
+        // };
 
         // sort by new && old
-        const sortProducts = (products) => {
-            const sortOrder = document.getElementById("sortOrder").value;
-            const sortedProducts = [...products].sort((a, b) => {
-                if (sortOrder === "asc") {
-                    return a.price - b.price;
-                } else {
-                    return b.price - a.price;
-                }
-            });
-            displayShopProducts(sortedProducts);
-        };
+        // const sortProducts = (products) => {
+        //     const sortOrder = document.getElementById("sortOrder").value;
+        //     const sortedProducts = [...products].sort((a, b) => {
+        //         if (sortOrder === "asc") {
+        //             return a.price - b.price;
+        //         } else {
+        //             return b.price - a.price;
+        //         }
+        //     });
+        //     displayShopProducts(sortedProducts);
+        // };
 
 
     </script>
+     <script src="js/main.js"></script>
 </body>
 
 </html>

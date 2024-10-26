@@ -63,20 +63,20 @@ var swiper = new Swiper(".testimonialSwiper", {
 });
 
 // API calls
-
+let products = [];
 const getData = () => {
     fetch("https://dummyjson.com/products")
         .then(res => res.json())
         .then(data => {
-            const products = data.products;
+            products = data.products;
+       
+
             displayProducts(products);
-            displayCategory(products)
-            displayShopProducts(data.products);
-            document.getElementById("search-btn").addEventListener("click", () => {
-                handleSearch(products);
-                displaySearchProducts()
-            });
-           
+            
+            const searchInput = document.getElementById("search-input");
+            searchInput.addEventListener("input", () => handleSearch(products));
+
+
         })
 }
 getData()
@@ -87,10 +87,87 @@ document.addEventListener("DOMContentLoaded", function () {
 
     togglebtn.addEventListener("click", function () {
         const sdiv = document.getElementById("search-div");
+        const spdiv = document.getElementById("searchproducts");
+        sdiv.classList.toggle("hidden");
+        spdiv.classList.toggle("static");
+    });
+
+    const showcart = document.getElementById("cartbtn");
+
+    showcart.addEventListener("click", function () {
+        const sdiv = document.getElementById("showcart");
         sdiv.classList.toggle("hidden");
     });
+
 });
 
+function displayShopProducts(items) {
+console.log(items);
+    const productList = document.getElementById("productList");
+    productList.innerHTML = "";
+    items?.forEach(product => {
+        productList.innerHTML += `
+        
+        <div
+    class="bg-gray-100 p-3 rounded-lg group overflow-hidden cursor-pointer relative  hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all"
+    onclick="window.location.href='product-details.html?id=${product.id}'">  <!-- Link to product details page -->
+    <div class="w-full h-[300px] overflow-hidden mx-auto aspect-w-16 aspect-h-8">
+        <img src=${product?.images[0]} alt="product1" class="h-full w-full object-contain" />
+    </div>
+
+    <div
+        class="absolute mx-auto left-0 right-0 -bottom-80 group-hover:bottom-2 bg-white w-11/12 p-3 rounded-lg transition-all duration-500">
+        <div class="text-center">
+            <h3 class="text-base font-bold text-gray-800">${product.title}</h3>
+            <h4 class="text-lg text-blue-600 font-bold mt-2">$${product.price}</h4>
+        </div>
+        
+        <div class="flex justify-center space-x-1 mt-4 text-[#facc15]">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star text-[#CED5D8]"></i>
+        </div>
+    </div>
+</div>
+
+    `;
+    });
+}
+
+
+const filterProducts = (products) => {
+    const category = document.getElementById("categoryFilter").value;
+    const maxPrice = document.getElementById("priceFilter").value || Infinity;
+
+    const filteredProducts = products.filter(product => {
+        return (category ? product.category === category : true) && product.price <= maxPrice;
+    });
+    displayShopProducts(filteredProducts);
+}
+
+const showCategory = (categories) => {
+    const categoryFilter = document.getElementById("showCategory");
+    categories.forEach(category => {
+        categoryFilter.innerHTML += `<li onclick="filterCategory('${category}')"><a href="#" class="block py-2  hover:text-blue-600">${category}</a></li>`;
+    });
+};
+const showBrands = (brands) => {
+    const brandFilter = document.getElementById("showBrands");
+    brands.forEach(brand => {
+        brandFilter.innerHTML += `<li onclick="filterBrand('${brand}')"><a href="#" class="block py-2  hover:text-blue-600">${brand}</a></li>`;
+    });
+};
+
+const filterCategory = (category) => {
+    const newData = products.filter(product => product.category === category)
+    displayShopProducts(newData);
+}
+const filterBrand = (brand) => {
+    const newData = products.filter(product => product.brand === brand)
+    displayShopProducts(newData);
+}
 
 // Handle search when the input value changes
 // const handleSearchEvent = (products) => {
@@ -116,44 +193,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+const sortProducts = (products) => {
+    const sortOrder = document.getElementById("sortOrder").value;
+    const sortedProducts = [...products].sort((a, b) => {
+        if (sortOrder === "asc") {
+            return a.price - b.price;
+        } else {
+            return b.price - a.price;
+        }
+    });
+    displayShopProducts(sortedProducts);
+};
 
+const handlePriceFilter = (range) => {
+    filteredItems = products.filter(item => item.price >= range.low && item.price <= range.high);
+    displayShopProducts(filteredItems);
+};
+const displayshopCategory = (categories) => {
 
+    const categoryFilter = document.getElementById("categoryFilter");
+    categoryFilter.innerHTML = `<option value="">All Categories</option>`;
+    categories.forEach(category => {
+        categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
+    });
+};
 
 const handleSearch = (products) => {
     const value = document.getElementById("search-input").value.trim();
-
     if (value) {
-        // Filter products based on the search term
+      
         const filteredProducts = products.filter(product =>
             product.title.toLowerCase().includes(value.toLowerCase())
         );
-
-        // Debug: Check if filtered products exist
-        console.log('Filtered Products:', filteredProducts);
-
-        // Clear input field
-        document.getElementById("search-input").value = '';
-
-        // Display the filtered products
         displaySearchProducts(filteredProducts);
     } else {
-        alert("Please enter a valid search term.");
+        document.getElementById("search-input").value = '';
+        displaySearchProducts('');
     }
 };
 
 const displaySearchProducts = (products) => {
     const productsContainer = document.getElementById('searchproducts');
-    console.log('Displaying Products: 17', products.length);
-   
-    productsContainer.innerHTML = '';  
+    console.log('Displaying Products: ', products.length);
+    productsContainer.innerHTML = '';
 
-    // Check if any products are available
-    if (products.length === 0) {
-        productsContainer.innerHTML = '<p>No products found.</p>';
-        return;
-    }
-
- 
     products.forEach(product => {
         const productImage = product.images && product.images[0] ? product.images[0] : 'placeholder.jpg'; // Fallback image
         const productTitle = product.title ? product.title : 'No title available';
@@ -172,6 +255,7 @@ const displaySearchProducts = (products) => {
     });
 };
 
+// show product
 const displayProducts = (products) => {
     const productsContainer = document.getElementById('products');
 
@@ -205,12 +289,7 @@ const displayProducts = (products) => {
     });
 }
 
-// const displayCategory = (products) => {
-//     const category = [...new Set(products?.map(product => product.category))]
-// }
-// displayCategory()
-// Get stored cart from localStorage or initialize an empty cart
-const getStoredCart = () => {  
+const getStoredCart = () => {
     return localStorage.getItem('shopping-cart') ? JSON.parse(localStorage.getItem('shopping-cart')) : [];
 }
 
@@ -222,7 +301,7 @@ const addToCart = (productId) => {
     if (product) {
         product.quantity += 1; // Increase quantity if already in cart
         localStorage.setItem('shopping-cart', JSON.stringify(cart)); // Save updated cart to localStorage
-        displayCart(); 
+        displayCart();
         displayCartLength()// Update cart display immediately
     } else {
         // Fetch product data if not already in the cart
@@ -242,33 +321,42 @@ const addToCart = (productId) => {
             });
     }
 }
-// Remove product from the cart by ID
+// Remove cart 
 const removeFromCart = (productId) => {
     const cart = getStoredCart();
-    const updatedCart = cart.filter(item => item.id !== productId); // Remove item by ID
-    localStorage.setItem('shopping-cart', JSON.stringify(updatedCart)); // Update cart in localStorage
-    displayCart(); // Refresh cart display
-    alert('Product removed from cart!'); // Notify user
+    const updatedCart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('shopping-cart', JSON.stringify(updatedCart));
+    displayCart();
+    displayCartLength()
+    alert('Product removed from cart!');
 }
-//  <button onclick="removeFromCart(${item.id})">Remove</button> <!-- Remove button -->
-// You can create a function to display cart items
-const displayCart = () => {
-    const cartContainer = document.getElementById('cart'); 
-    cartContainer.innerHTML = '';
 
+// cart  showing
+const displayCart = () => {
+    const cartContainer = document.getElementById('cart');
+    cartContainer.innerHTML = '';
+    const cart = getStoredCart()
+    cartContainer.innerHTML = `<p class='bg-[#F5F5F3] text-center'>totals cart : ${cart.length}</p>`;
     cart.forEach(item => {
         cartContainer.innerHTML += `
-            <div>
-                <h3>${item.title} - $${item.price} x ${item.quantity}</h3>
+            
+            <div  class=" flex w-full justify-between items-center flex-wrap gap-2 bg-[#F5F5F3] py-2 px-5 border-b">
+                <img src='${item.images}' alt="" class="bg-[#979797] w-9 h-9" />
+                 <h2>${item.title}</h2>
+                 <p>$${item.price}</p>
+                <button onClick='removeFromCart(${item.id})'>delete</button>
             </div>
+           
         `;
     });
 }
 
+// cart length showing
+
+
 const displayCartLength = () => {
     const cartLength = getStoredCart().length;
-    console.log(cartLength);
     document.getElementById('cartLength').innerHTML = cartLength;
-
 }
 displayCartLength()
+displayCart()

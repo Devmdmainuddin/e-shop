@@ -2669,7 +2669,7 @@
 
 <body>
 
-    <header class='flex border-b bg-white font-sans min-h-[70px] tracking-wide relative z-50'>
+    <header class='flex fixed top-0 w-full border-b bg-white font-sans min-h-[70px] tracking-wide  z-50'>
         <div class="container mx-auto relative">
             <div class='flex flex-wrap items-center justify-between px-10 py-3 gap-4 w-full'>
 
@@ -2733,7 +2733,7 @@
                     <span class="relative">
                         <i class="fa-solid fa-cart-arrow-down text-xl text-[#333]"></i>
                         <span
-                            class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">0</span>
+                            class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white"> <span id="cartLength"></span></span>
                     </span>
                     <span id="show-search">
                         <i class="fa-solid fa-magnifying-glass text-xl text-[#333]"></i>
@@ -2937,6 +2937,7 @@
             <div id="products" class="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-6 gap-12">
 
             </div>
+           
         </div>
     </section>
 
@@ -3608,7 +3609,10 @@
         </div>
     </section>
     <!-- Testimonial -->
-     
+     <div id="cart">
+
+     </div>
+
     <footer class="w-full">
         <div class="container mx-auto px-6">
             <!--Grid-->

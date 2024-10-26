@@ -14,8 +14,8 @@
 
 <body>
 
-    <header class='flex border-b bg-white font-sans min-h-[70px] tracking-wide relative z-50'>
-        <div class="container mx-auto relative">
+    <header class=' border-b bg-white font-sans min-h-[70px]  relative z-50'>
+        <div class=" max-w-[1280px] mx-auto relative">
             <div class='flex flex-wrap items-center justify-between px-10 py-3 gap-4 w-full'>
 
                 <div class="logo">
@@ -78,7 +78,7 @@
                     <span class="relative">
                         <i class="fa-solid fa-cart-arrow-down text-xl text-[#333]"></i>
                         <span
-                            class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white">0</span>
+                            class="absolute left-auto -ml-1 top-0 rounded-full bg-black px-1 py-0 text-xs text-white"> <span id="cartLength"></span></span>
                     </span>
                     <span id="show-search">
                         <i class="fa-solid fa-magnifying-glass text-xl text-[#333]"></i>
@@ -105,38 +105,83 @@
         </div>
 
     </header>
+    <div class="flex gap-4 max-w-[1280px] mx-auto">
 
-    <main class="max-w-6xl mx-auto p-5">
-        <!-- Filter and Sort Options -->
-        <div class="flex flex-col md:flex-row justify-end items-center my-5 space-y-3 md:space-y-0 md:space-x-4">
-            <!-- Filter by Category -->
-            <select id="categoryFilter" class="border border-gray-300 rounded p-2 outline-0"
-                onchange="filterProducts()">
-            </select>
-
-            <!-- Filter by Price Range -->
-            <div class="flex items-center space-x-2">
-                <label for="priceFilter" class="text-gray-600">Max Price:</label>
-                <input type="number" id="priceFilter" placeholder="500"
-                    class="border border-gray-300 rounded p-2 w-24 outline-0" oninput="filterProducts()" />
+        <aside>
+            <div class="w-[265px] px-6">
+                <!-- Sidebar Categories -->
+                <div class="border-b py-3">
+                    <h2 class="text-xl font-bold text-gray-800">Categories</h2>
+                    <ul id="showCategory" class=" list-none  text-gray-600">
+                    </ul>
+                </div>
+                <!-- Sidebar Brands -->
+                <div class="border-b py-3">
+                    <h2 class="text-xl font-bold text-gray-800">Brands</h2>
+                    <ul id="showBrands" class="list-none  text-gray-600">
+                       
+                    </ul>
+                </div>
+                
+                <!-- Sidebar price range -->
+                <div id="priceFilters" class="space-y-2">
+                    <h2 class="text-xl font-bold text-gray-800">price filter</h2>
+                    <div onclick="handlePriceFilter({ low: 0, high: 499 })"
+                        class="flex justify-between  py-2 cursor-pointer">
+                        <p>$0.00 - $499</p> <span>22</span>
+                    </div>
+                    <div onclick="handlePriceFilter({ low: 500, high: 999 })"
+                        class="flex justify-between  py-2 cursor-pointer">
+                        <p>$500 - $999</p> <span>11</span>
+                    </div>
+                    <div onclick="handlePriceFilter({ low: 1000, high: 1499 })"
+                        class="flex justify-between  py-2 cursor-pointer">
+                        <p>$1000 - $1499</p> <span>11</span>
+                    </div>
+                    <div onclick="handlePriceFilter({ low: 1500, high: 1999 })"
+                        class="flex justify-between  py-2 cursor-pointer">
+                        <p>$1500 - $1999</p> <span>11</span>
+                    </div>
+                    <!-- Additional price ranges here... -->
+                </div>
             </div>
 
-            <!-- Sort by Date Added -->
-            <select id="sortOrder" class="border border-gray-300 rounded p-2 outline-0" onchange="sortProductsDesc()">
-                <option value="">Sort By</option>
-                <option value="desc">Newest First</option>
-                <option value="asc">Oldest First</option>
-            </select>
-        </div>
 
-        <!-- Product List -->
-        <div id="productList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <!-- Product items will be rendered here by JavaScript -->
-        </div>
-    </main>
+        </aside>
+        <main class="  p-5">
+            <!-- Filter and Sort Options -->
+            <div class="flex flex-col md:flex-row justify-end items-center my-5 space-y-3 md:space-y-0 md:space-x-4">
+                <!-- Filter by Category -->
+                <select id="categoryFilter" class="border border-gray-300 rounded p-2 outline-0"
+                    onchange="filterProducts()">
+                </select>
+
+                <!-- Filter by Price Range -->
+                <div class="flex items-center space-x-2">
+                    <label for="priceFilter" class="text-gray-600">Max Price:</label>
+                    <input type="number" id="priceFilter" placeholder="500"
+                        class="border border-gray-300 rounded p-2 w-24 outline-0" oninput="filterProducts()" />
+                </div>
+
+                <!-- Sort by Date Added -->
+                <select id="sortOrder" class="border border-gray-300 rounded p-2 outline-0"
+                    onchange="sortProducts(products)">
+                    <option value="">Sort By</option>
+                    <option value="desc">Newest First</option>
+                    <option value="asc">Oldest First</option>
+                </select>
+            </div>
+
+            <!-- Product List -->
+            <div id="productList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Product items will be rendered here by JavaScript -->
+            </div>
+        </main>
+    </div>
+
 
     <footer class="w-full">
-        <div class="container mx-auto px-6">
+        <div class="max-w-[1280px] mx-auto px-6">
             <!--Grid-->
             <div
                 class=" py-14 grid grid-cols-1 lg:grid-cols-3 gap-y-8 max-w-sm mx-auto sm:max-w-lg md:max-w-3xl lg:max-w-full lg:gap-x-12">
@@ -409,19 +454,27 @@
 
     <script src="js/main.js"></script>
     <script>
+
+
+        let products = [];
         const getshopData = () => {
             fetch("https://dummyjson.com/products")
                 .then(res => res.json())
                 .then(data => {
-                    const products = data.products;
+                    products = data.products
+                 const  category = [...new Set(products.map(product => product.category))];
+                  const  brand = [...new Set(products.map(product => product.brand))];
                     displayShopProducts(products);
-                    document.getElementById("sortOrder").addEventListener("change", () => sortProductsDesc(products));
+                    document.getElementById("showCategory").addEventListener("onclick", () => filterProducts(products));
                     document.getElementById("categoryFilter").addEventListener("change", () => filterProducts(products));
                     document.getElementById("priceFilter").addEventListener("input", () => filterProducts(products));
-                    displayshopCategory(products);
+                    displayshopCategory(category);
+                    showCategory(category)
+                    showBrands(brand)
                 })
         }
         getshopData()
+
 
         function displayShopProducts(items) {
 
@@ -459,36 +512,70 @@
         }
 
 
-        const displayshopCategory = (products) => {
-console.log(products);
-            if (!products || products.length === 0) {
-                console.error("No products available to generate categories.");
-                return;
-            }
-            const categories = [...new Set(products.map(product => product.category))];
-            // Get the categoryFilter element
-            const categoryFilter = document.getElementById("categoryFilter");
-            if (!categoryFilter) {
-                console.error("Element with id 'categoryFilter' not found");
-                return;
-            }
-            // Populate category filter options
-            categoryFilter.innerHTML = `<option value="">All Categories</option>`;
-            categories.forEach(category => {
-                categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
-            });
-        };
 
 
 
         const filterProducts = (products) => {
             const category = document.getElementById("categoryFilter").value;
             const maxPrice = document.getElementById("priceFilter").value || Infinity;
+
             const filteredProducts = products.filter(product => {
                 return (category ? product.category === category : true) && product.price <= maxPrice;
             });
             displayShopProducts(filteredProducts);
         }
+
+        const showCategory = (categories) => {
+            const categoryFilter = document.getElementById("showCategory");
+            categories.forEach(category => {
+                categoryFilter.innerHTML += `<li onclick="filterCategory('${category}')"><a href="#" class="block py-2  hover:text-blue-600">${category}</a></li>`;
+            });
+        };
+        const showBrands = (brands) => {
+            const brandFilter = document.getElementById("showBrands");
+            brands.forEach(brand => {
+                brandFilter.innerHTML += `<li onclick="filterBrand('${brand}')"><a href="#" class="block py-2  hover:text-blue-600">${brand}</a></li>`;
+            });
+        };
+
+        const filterCategory = (category) => {
+            const newData = products.filter(product => product.category === category)
+            displayShopProducts(newData);
+        }
+        const filterBrand = (brand) => {
+            const newData = products.filter(product => product.brand === brand)
+            displayShopProducts(newData);
+        }
+
+
+        // show  category
+        const displayshopCategory = (categories) => {
+
+            const categoryFilter = document.getElementById("categoryFilter");
+            categoryFilter.innerHTML = `<option value="">All Categories</option>`;
+            categories.forEach(category => {
+                categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
+            });
+        };
+        // filter products by price range
+        const handlePriceFilter = (range) => {
+            filteredItems = products.filter(item => item.price >= range.low && item.price <= range.high);
+            displayShopProducts(filteredItems);
+        };
+
+        // sort by new && old
+        const sortProducts = (products) => {
+            const sortOrder = document.getElementById("sortOrder").value;
+            const sortedProducts = [...products].sort((a, b) => {
+                if (sortOrder === "asc") {
+                    return a.price - b.price;
+                } else {
+                    return b.price - a.price;
+                }
+            });
+            displayShopProducts(sortedProducts);
+        };
+
 
     </script>
 </body>
